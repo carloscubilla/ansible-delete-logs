@@ -1,0 +1,2 @@
+---
+path_name_logs: -type f -mtime +30 \( -name "server.log*" -o -name "scoring.log*" \) -execdir rm -- '{}' \;

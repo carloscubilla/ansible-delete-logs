@@ -1,0 +1,38 @@
+default:
+  image: python:3.6
+
+stages:
+  - test
+  - deploy
+
+test-job1:
+  stage: test
+  script:
+    - echo "Hello, $(hostname)"
+    - whoami
+    - ansible-playbook ansible-delete-logs.yml -i inventory --syntax-check
+  after_script:
+    - sudo rm -rf $CI_PROJECT_DIR
+  tags:
+    - awx_ansible_deploy
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Hello, $(hostname)"
+    - whoami
+    - pip install awxkit
+    - export TOWER_USERNAME=$TOWER_USERNAME
+    - export TOWER_HOST=$TOWER_HOST
+    - export TOWER_PASSWORD=$TOWER_PASSWORD
+    - $(awx login -f human)
+    - awx projects update $ID_PROJECT
+    - sleep 10
+    - awx inventory_sources update $ID_INVENTORY_SOURCE_PROD
+  only:
+    - master
+  except:
+    - merge_requests
+  tags:
+    - local
+

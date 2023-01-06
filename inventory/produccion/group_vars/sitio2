@@ -1,0 +1,2 @@
+---
+path_name_logs: -type f -mtime +30 \( -name "loglogi-*.log" -o -name "loglogido-*.log" \) -execdir rm -- '{}' \;

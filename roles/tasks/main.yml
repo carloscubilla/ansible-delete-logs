@@ -1,0 +1,9 @@
+---
+- name: Copiar scrip para borrado de logs
+  template:
+    src: produccion/dirclean.sh.j2
+    dest: /opt/scripts/dirclean.sh 
+    mode: "0755"
+
+- name: Ejecutar dirclean.sh
+  command: /opt/scripts/dirclean.sh

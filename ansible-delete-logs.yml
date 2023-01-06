@@ -1,0 +1,5 @@
+---
+- name: Playbok para copiar scrip de borrado de logs
+  hosts: all
+  roles:
+    - roles/
